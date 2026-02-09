@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'log'),
+    'default' => env('MAIL_MAILER', 'mailgun'),
 
     /*
     |--------------------------------------------------------------------------
@@ -97,6 +97,13 @@ return [
             'retry_after' => 60,
         ],
 
+        'mailgun' => [
+            'transport' => 'mailgun',
+            // 'client' => [
+            //     'timeout' => 5,
+            // ],
+        ],
+
     ],
 
     /*
@@ -111,7 +118,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'postmaster@sandbox89bb5ecfcca54f25a2d6703837fd59f0.mailgun.org'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
