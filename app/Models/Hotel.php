@@ -14,15 +14,14 @@ class Hotel extends Model
     protected $table = 'hotels';
      
     protected $fillable = [
-        'id',
-        'user_id',
+        
         'name',
         'city',
-        'star_rating',
-        'slug',
+        // 'star_rating',
+        // 'slug',
         'description',
         'address',
-        'phone',
+        'phone_number',
         'email',
         'country',
     ];

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Hotel;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreHotelRequest;
 use App\Http\Requests\UpdateHotelRequest;
 
@@ -11,9 +12,17 @@ class HotelController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        // Get the city from the query parameters
+        $city = $request->query('city');
+
+        // Fetch hotels based on the city filter, if provided
+        $hotels = Hotel::when($city, function ($query, $city) {
+            $query->where('city', 'like', "%{$city}%");
+        })->paginate(5);
+
+        return view('landing', compact('hotels', 'city'));
     }
 
     /**
@@ -22,6 +31,7 @@ class HotelController extends Controller
     public function create()
     {
         //
+        return view('hotels.create');
     }
 
     /**
@@ -30,6 +40,11 @@ class HotelController extends Controller
     public function store(StoreHotelRequest $request)
     {
         //
+        $validatedData = $request->validated();
+        $validatedData['user_id'] = auth()->id(); // Assuming the user is authenticated
+        Hotel::create($validatedData);
+        return $request;
+        // return redirect()->route('hotels.index');
     }
 
     /**
@@ -38,6 +53,7 @@ class HotelController extends Controller
     public function show(Hotel $hotel)
     {
         //
+        return view('hotels.show', compact('hotel'));
     }
 
     /**
