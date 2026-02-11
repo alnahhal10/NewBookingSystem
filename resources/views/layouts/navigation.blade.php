@@ -17,11 +17,13 @@
                     </x-nav-link>
                 </div>
                 @if (Auth::check())
+                @role('admin')
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('hotels.create')" :active="request()->routeIs('hotels.create')">
                         {{ __('Create Hotel') }}
                     </x-nav-link>
                 </div>
+                @endrole
                 @endif
             </div>
 
@@ -41,6 +43,10 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        <div class="block px-4 py-2 text-xs text-gray-500 font-semibold border-b border-gray-100">
+                            Role: <span class="text-blue-600">{{ ucfirst(Auth::user()->getRoleNames()->implode(', ')) }}</span>
+                        </div>
+
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
