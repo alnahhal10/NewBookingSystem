@@ -1,12 +1,6 @@
 <?php
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Spatie\Permission\Models\Role;
-
-
-
-
 
 test('login screen can be rendered', function () {
     $response = $this->get('/login');

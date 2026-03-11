@@ -17,8 +17,7 @@ class Hotel extends Model
         
         'name',
         'city',
-        // 'star_rating',
-        // 'slug',
+        'state',
         'description',
         'address',
         'phone_number',

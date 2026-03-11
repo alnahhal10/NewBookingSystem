@@ -18,7 +18,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('hotels', HotelController::class)->names(['index' => 'hotels'])->middleware(['auth']);
-
+Route::resource('hotels', HotelController::class)->names(['index' => 'hotels'])->only(['index', 'show'])->middleware('auth');
 
 Route::get('send', function () {
     Mail::to('alnhal10@gmail.com')->send(new TestMail());
