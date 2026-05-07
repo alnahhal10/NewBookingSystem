@@ -16,14 +16,7 @@ Route::group([
     'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
 ], function() {
 
-    Route::get('/dashboard3', function () {
-        return view('dashboard3');
-    });
-
-    Route::get('/empty', function () {
-        return view('empty');
-    });
-
+   
     Route::get('/', [HotelController::class, 'index'])->name('home');
 
     Route::get('/dashboard', function () {
@@ -51,24 +44,7 @@ Route::group([
     })->middleware(['auth', 'verified', 'role:admin'])->name('dashboard');
     
 
-    Route::get('/dashboard', function () {
-        $hotels = \App\Models\Hotel::all();
-        return view('userdashboard', compact('hotels'));
-    })->middleware(['auth', 'verified', 'role:user'])->name('dashboard');
-
-
-
-
-
-    Route::get('/landing1', function () {
-        $hotels = \App\Models\Hotel::all();
-        return view('landing1', compact('hotels'));
-    })->middleware(['auth', 'verified'])->name('landing1');
-
-    Route::get('/landing2', function () {
-        $hotels = \App\Models\Hotel::all();
-        return view('landing2', compact('hotels'));
-    })->middleware(['auth', 'verified'])->name('landing2');
+  
 
     // للجميع - عرض فقط
     Route::get('/hotels', [HotelController::class, 'index'])->name('hotels.index');
