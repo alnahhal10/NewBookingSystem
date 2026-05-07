@@ -1,0 +1,31 @@
+# إعدادات التعامل مع النصوص ونهايات الأسطر
+* text=auto eol=lf
+
+# إعدادات عرض الفروقات (Diff) لكل لغة
+*.blade.php diff=html
+*.css diff=css
+*.html diff=html
+*.md diff=markdown
+*.php diff=php
+
+# ملفات يتم تجاهلها عند تصدير الأرشيف (Archive)
+/.github export-ignore
+CHANGELOG.md export-ignore
+.styleci.yml export-ignore
+
+###########################################################
+# إعدادات Linguist لتصحيح لغة المشروع على GitHub
+###########################################################
+
+# اعتبار ملفات Blade كـ PHP لرفع نسبة لغة البرمجة الأساسية
+*.blade.php linguist-language=PHP
+
+# معاملة ملفات CSS و SCSS كملفات ثانوية (Vendored) 
+# هذا سيخفيها من شريط إحصائيات اللغات
+*.css linguist-vendored
+*.scss linguist-vendored
+*.js linguist-vendored
+
+# إذا كان لديك مجلدات معينة تحتوي على ملفات CSS ضخمة مولدة آلياً
+/public/css/* linguist-vendored
+/public/build/* linguist-vendored

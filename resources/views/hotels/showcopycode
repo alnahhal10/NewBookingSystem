@@ -1,0 +1,88 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Hotel Details') }}
+        </h2>
+    </x-slot>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>My Hotels</h1>
+            
+            @if($hotel)
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Location</th>
+                                <th>Rating</th>
+                                <th>Images</th>
+                                <th>Amenities</th>
+                                <th>Description</th>
+                                <th>Created At</th>
+                                <th>Country</th>
+                                <th>Address</th>
+                                <th>Phone Number</th>
+                                <th>State</th>
+                                <th>Email</th>
+                                <th>Actions</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ $hotel->id }}</td>
+                                <td>{{ $hotel->name }}</td>
+                                <td>{{ $hotel->location }}</td>
+                                <td>{{ $hotel->rating ?? 'N/A' }}</td>
+                                <td>{{ $hotel->description }}</td>
+                                <td>
+                                    @php $imgs = json_decode($hotel->images, true); @endphp
+                                        @if(!empty($imgs))
+                                            <img src="{{ $imgs[0] }}" class="w-full h-full object-cover" alt="{{ $hotel->name }}">
+                                        @else
+                                        <p>No images available.</p>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($hotel->amenities)
+                                        <ul>
+                                            @foreach(json_decode($hotel->amenities, true) as $amenity)
+                                                <li>{{ $amenity }}</li>
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        <p>No amenities listed.</p>
+                                    @endif
+                                </td>
+                                <td>
+                                    <td>{{ $hotel->created_at->format('Y-m-d') }}</td>
+                                    <td>{{ $hotel->country }}</td>
+                                    <td>{{ $hotel->address }}</td>
+                                    <td>{{ $hotel->phone_number }}</td>
+                                    <td>{{ $hotel->state }}</td>
+                                    <td>{{ $hotel->email }}</td>
+                                <td>
+                                    <a href="{{ route('hotels.edit', $hotel->id) }}" class="btn btn-sm btn-warning">Edit</a>/
+                                    <form action="{{ route('hotels.destroy', $hotel->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <p>Hotel not found.</p>
+            @endif
+        </div>
+    </div>
+</div>
+
+</x-app-layout>
+
+
