@@ -17,9 +17,8 @@ Route::group([
     'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
 ], function() {
 
-   
+   Route::get('/userdashboard', [UserDashboardController::class, 'index'])->middleware(['auth', 'verified', 'role:user'])->name('userdashboard');
     Route::get('/', [HotelController::class, 'index'])->name('home');
-    Route::get('/userdashboard', [UserDashboardController::class, 'index'])->middleware(['auth', 'verified', 'role:user'])->name('userdashboard');
 
     Route::get('/dashboard', function () {
         $hotels = Hotel::withCount(['roomTypes', 'rooms'])
@@ -97,5 +96,8 @@ Route::group([
         return response()->json(['message' => 'Email sent successfully']);
     });
 
-    require __DIR__.'/auth.php';
+   
 });
+    
+
+require __DIR__.'/auth.php';

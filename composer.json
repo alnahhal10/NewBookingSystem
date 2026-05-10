@@ -24,6 +24,7 @@
         "tymon/jwt-auth": "^2.3"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^4.2",
         "laravel/boost": "^2.0",
         "laravel/breeze": "^2.3",
         "laravel/pail": "^1.2.2",
