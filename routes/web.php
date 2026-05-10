@@ -5,6 +5,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\RoomTypeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\PaymentController;
 use App\Models\Booking;
 use App\Models\Hotel;
@@ -18,6 +19,7 @@ Route::group([
 
    
     Route::get('/', [HotelController::class, 'index'])->name('home');
+    Route::get('/userdashboard', [UserDashboardController::class, 'index'])->middleware(['auth', 'verified', 'role:user'])->name('userdashboard');
 
     Route::get('/dashboard', function () {
         $hotels = Hotel::withCount(['roomTypes', 'rooms'])
@@ -43,8 +45,6 @@ Route::group([
         ]);
     })->middleware(['auth', 'verified', 'role:admin'])->name('dashboard');
     
-
-  
 
     // للجميع - عرض فقط
     Route::get('/hotels', [HotelController::class, 'index'])->name('hotels.index');

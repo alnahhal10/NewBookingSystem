@@ -21,6 +21,13 @@
                         @role('admin')
                             <a href="{{ route('dashboard') }}" class="px-3 py-1.5 rounded-lg text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 font-medium transition">{{ __('navigation.dashboard') }}</a>
                         @endrole
+                        @role(['user','admin'])
+                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <x-nav-link :href="route('my.bookings')" :active="request()->routeIs('my.bookings')">
+                                {{ __('navigation.my bookings') }}
+                            </x-nav-link>
+                        </div>
+                        @endrole
                     @endauth
                 </nav>
             </div>

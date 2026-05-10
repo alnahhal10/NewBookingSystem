@@ -166,6 +166,3 @@ payment_status = paid
 
 
 
-
-ةيلمع ةدعاسم يف تبغر اذإ .CSS نم اًلدب Laravel PHP ـك كعورشم ىلع GitHub فرّعتيس ،طبضلاو مهفلا اذهب
-  .ينربخأ ،رخآ دادعإ يأ وأ gitattributes. ليدعتل

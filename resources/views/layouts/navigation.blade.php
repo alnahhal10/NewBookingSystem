@@ -26,6 +26,14 @@
                     </x-nav-link>
                 </div>
                 @endrole
+
+                @role(['user','admin'])
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('my.bookings')" :active="request()->routeIs('my.bookings')">
+                        {{ __('navigation.my bookings') }}
+                    </x-nav-link>
+                </div>
+                @endrole
                 @endif
             </div>
 
