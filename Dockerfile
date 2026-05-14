@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl
-
+    
 # تثبيت ملحقات PHP المطلوبة لقواعد البيانات
 RUN docker-php-ext-install pdo_mysql gd
 

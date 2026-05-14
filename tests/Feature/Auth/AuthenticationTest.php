@@ -15,6 +15,7 @@ test('login screen can be rendered', function () {
 });
 
 test('users can authenticate using the login screen', function () {
+    Role::firstOrCreate(['name' => 'user']);
     $user = User::factory()->create();
 
     $response = $this->post('/login', [
@@ -23,7 +24,38 @@ test('users can authenticate using the login screen', function () {
     ]);
 
     $this->assertAuthenticated();
+    $response->assertRedirect(route('my.bookings', absolute: false));
+});
+
+test('admins are redirected to the dashboard after login', function () {
+    Role::firstOrCreate(['name' => 'admin']);
+    $user = User::factory()->create();
+    $user->assignRole('admin');
+
+    $response = $this->post('/login', [
+        'email' => $user->email,
+        'password' => 'password',
+    ]);
+
+    $this->assertAuthenticated();
     $response->assertRedirect(route('dashboard', absolute: false));
+});
+
+test('regular users can not access the admin dashboard', function () {
+    $this->withoutMiddleware([
+        \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
+        \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
+        \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class,
+    ]);
+
+    Role::firstOrCreate(['name' => 'user']);
+    $user = User::factory()->create([
+        'email_verified_at' => now(),
+    ]);
+
+    $response = $this->actingAs($user)->get(route('dashboard', absolute: false));
+
+    $response->assertForbidden();
 });
 
 test('users can not authenticate with invalid password', function () {
