@@ -74,8 +74,10 @@ Route::group([
         Route::get('/payments/success/{booking}', [PaymentController::class, 'success'])->name('payments.success');
         Route::get('/payments/cancel/{booking}', [PaymentController::class, 'cancel'])->name('payments.cancel');
     });
+
+    Route::post('/webhook/stripe', [PaymentController::class, 'webhook'])->name('webhook.stripe');
+
     Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
-        Route::post('/webhook/stripe', [PaymentController::class, 'webhook'])->name('webhook.stripe');
 
         Route::get('/rooms', [RoomController::class, 'index']);
 

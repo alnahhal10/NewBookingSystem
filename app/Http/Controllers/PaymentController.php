@@ -60,6 +60,12 @@ class PaymentController extends Controller
         if ($booking->stripe_session_id !== $session->id) {
             return redirect()->route('my.bookings')->with('error', 'Invalid payment session.');
         }
+        
+            // fallback لو الـ webhook تأخر
+        if ($booking->payment_status !== 'paid') {
+            $booking->update(['payment_status' => 'paid', 'status' => 'confirmed']);
+        }
+
 
         return redirect()->route('my.bookings')->with('success', 'Payment successful! Your booking is confirmed.');
     }

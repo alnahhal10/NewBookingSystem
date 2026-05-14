@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Route;
+use SocialiteProviders\Manager\SocialiteWasCalled;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Event::listen(function (SocialiteWasCalled $event): void {
+            $event->extendSocialite('apple', \SocialiteProviders\Apple\Provider::class);
+        });
+
         //
         VerifyEmail::createUrlUsing(function ($notifiable) {
         
