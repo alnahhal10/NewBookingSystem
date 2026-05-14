@@ -54,11 +54,7 @@ class BookingController extends Controller
 
     public function store(StoreBookingRequest $request)
     {
-        $validated = $request->validate([
-            'room_id' => 'required|exists:rooms,id',
-            'check_in' => 'required|date|after_or_equal:today',
-            'check_out' => 'required|date|after:check_in',
-        ]);
+       
 
         $room = Room::with('roomType')->findOrFail($request->room_id);
 

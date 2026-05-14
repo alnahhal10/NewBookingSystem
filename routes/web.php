@@ -17,7 +17,7 @@ Route::group([
     'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
 ], function() {
 
-   Route::get('/userdashboard', [UserDashboardController::class, 'index'])->middleware(['auth', 'verified', 'role:user'])->name('userdashboard');
+   
     Route::get('/', [HotelController::class, 'index'])->name('home');
 
     Route::get('/dashboard', function () {
@@ -74,23 +74,23 @@ Route::group([
         Route::get('/payments/success/{booking}', [PaymentController::class, 'success'])->name('payments.success');
         Route::get('/payments/cancel/{booking}', [PaymentController::class, 'cancel'])->name('payments.cancel');
     });
+    Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+        Route::post('/webhook/stripe', [PaymentController::class, 'webhook'])->name('webhook.stripe');
 
-    Route::post('/webhook/stripe', [PaymentController::class, 'webhook'])->name('webhook.stripe');
+        Route::get('/rooms', [RoomController::class, 'index']);
 
-    Route::get('/rooms', [RoomController::class, 'index']);
+        // Create a physical Room for a specific Room Type
+        Route::post('/room-types/{roomType}/rooms', [RoomController::class, 'store']);
 
-    // Create a physical Room for a specific Room Type
-    Route::post('/room-types/{roomType}/rooms', [RoomController::class, 'store']);
+        // Create a Room Type for a specific Hotel
+        Route::post('/hotels/{hotel}/room-types', [RoomTypeController::class, 'store']);
 
-    // Create a Room Type for a specific Hotel
-    Route::post('/hotels/{hotel}/room-types', [RoomTypeController::class, 'store']);
+        Route::get('/hotels/{hotel}/roomstypes/create', [RoomTypeController::class, 'create'])->name('room-types.create');
+        Route::post('/hotels/{hotel}/room-types', [RoomTypeController::class, 'store'])->name('room-types.store');
 
-    Route::get('/hotels/{hotel}/roomstypes/create', [RoomTypeController::class, 'create'])->name('room-types.create');
-    Route::post('/hotels/{hotel}/room-types', [RoomTypeController::class, 'store'])->name('room-types.store');
-
-    Route::get('/hotels/{hotel}/rooms/create', [RoomController::class, 'create'])->name('rooms.create');
-    Route::post('/hotels/{hotel}/rooms', [RoomController::class, 'store'])->name('rooms.store');
-
+        Route::get('/hotels/{hotel}/rooms/create', [RoomController::class, 'create'])->name('rooms.create');
+        Route::post('/hotels/{hotel}/rooms', [RoomController::class, 'store'])->name('rooms.store');
+    });
     Route::get('send', function () {
         Mail::to('alnhal10@gmail.com')->send(new TestMail());
         return response()->json(['message' => 'Email sent successfully']);
